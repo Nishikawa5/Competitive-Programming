@@ -1,0 +1,21 @@
+A data structure is linear if its elements forms a linear sequence
+for example: from left to right or bottom to top
+
+Array:
+We have static arrays and dynamic arrays
+
+Static arrays - we can't change the size this type of array, the total size of array is declared one time
+for example: int arr[10];
+
+Dynamic arrays - we can change the size. Operate the same way as static array, but the size changes when it
+reaches the max
+for example: vector <int> arr; (in cpp)
+we can make comparations if the data types are the same?
+
+Sorting - we can use sort algorithms in arrays
+cpp have built in sort function and we need cmp function to use that
+
+Search - search for an specific element in an array
+linear (n), binary search (logn and array must be sorted), hashing (constant)
+
+Array of booleans (bitset)

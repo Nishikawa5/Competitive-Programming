@@ -1,0 +1,6 @@
+in C/C++
+toupper(char);
+tolower(char);
+
+isalpha(ch);
+isdigit(ch);

@@ -1,0 +1,38 @@
+Head recursion:
+    recursive call made before performs a task
+
+Tail recursion:
+    recursive call made at the end of function
+
+Memoization:
+    store the solution of previous problem in some data structure
+
+    the solution is:
+        look if this subproblem is already solved:
+            use the solution
+        else:
+            compute the solution and store it
+    
+Top-Down vs Bottom-Up approaches:
+    Top-Down:
+        we assume the "bottom" has been already solved,
+        it's recursive with memoization
+    Bottom-Up:
+        subproblems solved before the main problem
+        it's iterative with tabulation
+
+Strategy for DP:
+    write recursive solution -> optimize using DP or memoization
+    check for overlapping subproblems (complex -> subproblems)
+    questions:
+        subproblems of same type?
+        subproblems overlaps?
+        optimize something?
+    
+    steps:
+        1. see if DP is applicable
+        2. define recursion (problems in terms of subproblems with base case)
+        3. try memoization
+        4. try solving bottom-up
+        
+Visualizing the memoization approach may give us the bottom up approach

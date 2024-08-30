@@ -1,0 +1,19 @@
+In competitive programming, we are given already solved problems (not research).
+Hiding the test data encourages the programmer to think about all corner cases of problem
+
+Classify the problems
+No Category Confidence and Expected Solving Speed
+A1. I have solved this type before I am sure that I can re-solve it again (and fast)
+A2. I have solved this type before I am sure that I can re-solve it again (but slow)
+B. I have seen this type before But that time I know that I cannot solve it yet
+C. I have not seen this type before See the discussion below
+
+Some skills:
+• Reducing the given problem into another (easier) problem,
+• Reducing a known (NP-)hard problem into the given problem,
+• Identifying subtle hints or special properties in the problem,
+• Attacking the problem from a non-obvious angle/asking a different question,
+• Compressing the input data,
+• Reworking mathematical formulas,
+• Listing observations/patterns,
+• Performing case analysis of possible subcases of the problem, etc.
