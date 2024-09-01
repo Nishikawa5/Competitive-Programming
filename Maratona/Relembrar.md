@@ -1,5 +1,8 @@
 # Dicas
 
+### Na prova
+Olhar os balões pelo score do site para não confundir e considerar o tempo que as questões foram feitas, além do número de questões feitas.
+
 ### Tomar cuidado com os tipos
 Tipos de variáveis podem causar erros difíceis de perceber.
 
