@@ -14,7 +14,6 @@ long long mod_inverse(long long x, long long mod) {
     return result;
 }
 
-
 int main() {
     int tc;
     int mod = (int) 1e9 + 7;
@@ -25,7 +24,7 @@ int main() {
         cin >> n;
 
         long long tot_sum = 0;
-        vector<int> balls(n);
+        vector<long long> balls(n);
         for (auto &b: balls) {
             cin >> b;
             tot_sum += b;
@@ -35,7 +34,9 @@ int main() {
         long long product_sum = 0;
         long long max_div = 0;
         for (int i = 0; i < n; i++) {
+            tot_sum += mod;
             tot_sum -= balls[i];
+            tot_sum %= mod;
 
             product_sum += tot_sum * balls[i];
             product_sum %= mod;
