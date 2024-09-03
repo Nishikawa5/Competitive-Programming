@@ -1,6 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
+/*
+Since the array is a permutation array we only have loops.
+(start at node i and end at node i)
+*/
 int main() {
     int tc;
     cin >> tc;
