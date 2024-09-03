@@ -1,36 +1,43 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+vector<vector<bool>> readPolyomino(int size) {
+    vector<vector<bool>> polyomino(size, vector<bool>(size));
+    for (int i = 0; i < size; i++) {
+        string line;
+        cin >> line;
+
+        for (int j = 0; j < size; j++) {
+            polyomino[i][j] = (line[j] == '*');
+        }
+    }
+    return polyomino;
+}
+
 int main() {
     int large, small;
     while (cin >> large >> small && large && small) {
-        getchar();
-        vector<vector<bool>> large_polyomino(large, vector<bool>(large));
-        for (int i = 0; i < large; i++) {
-            for (int j = 0; j < large; j++) {
-                large_polyomino[i][j] = (getchar() == '*');
-            }
-            getchar();
-        }
+        vector<vector<bool>> large_polyomino = readPolyomino(large);
+        vector<vector<bool>> small_polyomino = readPolyomino(small);
 
         vector<pair<int, int>> differences;
         differences.push_back({0, 0});
-        bool first = false;
+        bool first = true;
         pair<int, int> first_idx;
         for (int i = 0; i < small; i++) {
             for (int j = 0; j < small; j++) {
-                if (getchar() == '*') {
-                    if (first) {
+                if (small_polyomino[i][j]) {
+                    if (!first) {
                         differences.push_back({i - first_idx.first, j - first_idx.second});
                     } else {
                         first_idx.first = i;
                         first_idx.second = j;
-                        first = true;
+                        first = false;
                     }
                 }
             }
-            getchar();
         }
+
         int copies = 0;
         for (int i = 0; i < large; i++) {
             for (int j = 0; j < large; j++) {
