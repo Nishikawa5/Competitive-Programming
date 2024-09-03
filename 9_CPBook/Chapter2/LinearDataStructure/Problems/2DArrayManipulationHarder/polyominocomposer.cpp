@@ -14,6 +14,9 @@ vector<vector<bool>> readPolyomino(int size) {
     return polyomino;
 }
 
+/*
+error with getchar()
+*/
 int main() {
     int large, small;
     while (cin >> large >> small && large && small) {
