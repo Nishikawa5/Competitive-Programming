@@ -7,7 +7,7 @@ using namespace std;
 typedef tree<
     pair<int, int>,
     null_type,
-    greater<int>,
+    greater<pair<int, int>>,
     rb_tree_tag,
     tree_order_statistics_node_update>
 statisticsTree;
