@@ -3,6 +3,7 @@ In this repository, I will keep a collection of competitive programming problems
 
 ### Current Approach
 **Solving process**: Try to solve the problem for ~15 minutes. If i have no more ideas peak the solution and try again. Repeat it until the problem is solved.
+
 **Selecting the problem**:
 1. Solve problems by topic (learn this topic patterns):
    - Read the introduction of many topics and interleave the problems.
