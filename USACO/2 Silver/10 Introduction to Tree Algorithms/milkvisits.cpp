@@ -1,26 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void dfs(int vertice, bool found, bool &ans, 
-         char desired_milk, int desired_vertice, bool &stop_dfs, 
-         string &cows_type, vector<bool> &visited, vector<vector<int>> &graph) {
-
-    visited[vertice] = true;
-    if (vertice == desired_vertice) {
-        ans = found || cows_type[vertice] == desired_milk;
-        stop_dfs = true;
-    }
-    if (stop_dfs) {
-        return;
-    }
+void dfs(int vertice, int curr_component, vector<int> &components, string &cows_type, vector<vector<int>> &graph) {
+    // connect every vertice that has the same color
+    components[vertice] = curr_component;
 
     for (auto &curr_vertice: graph[vertice]) {
-        if (!visited[curr_vertice]) {
-            dfs(curr_vertice, found || cows_type[curr_vertice] == desired_milk, ans, 
-                desired_milk, desired_vertice, stop_dfs, cows_type, visited, graph);
+        if (components[curr_vertice] == -1 && cows_type[curr_vertice] == cows_type[vertice]) {
+            // not visited yet and same color, so make this component the current
+            dfs(curr_vertice, curr_component, components, cows_type, graph);
         }
     }
-
 }
 
 int main() {
@@ -40,17 +30,27 @@ int main() {
         graph[f2].push_back(f1);
     }
 
+    vector<int> components(num_farms, -1);
+    for (int i = 0; i < num_farms; i++) {
+        // component for each farm
+        if (components[i] != -1) continue;
+
+        // new component
+        dfs(i, i, components, cows_type, graph);
+    }
+
     for (int i = 0; i < num_friends; i++) {
         int from, to;
-        char desired_milk;
-        cin >> from >> to >> desired_milk;
+        char type;
+        cin >> from >> to >> type;
         from--; to--;
 
-        bool ans = false;
-        bool stop_bfs = false;
-        vector<bool> visited(num_farms, false);
-        dfs(from, false, ans, desired_milk, to, stop_bfs, cows_type, visited, graph);
-        cout << ans;
+        if (components[from] == components[to]) {
+            cout << (type == cows_type[from]);
+        } else {
+            // different
+            cout << 1;
+        }
     }
     cout << endl;
 }
