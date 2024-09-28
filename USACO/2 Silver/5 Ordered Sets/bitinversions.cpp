@@ -1,7 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+void modify(int x, set<int> &diff, multiset<int> &intervals, int max_size) {
+    if (x == 0 || x == max_size) {
+        return;
+    }
+
+    auto it = diff.find(x);
+
+    if (it != diff.end()) {
+        // it is in diff, think about 1001001, where x is the middle index
+        auto left_ptr = prev(it);
+        auto right_ptr = next(it);
+
+        intervals.erase(intervals.find(*right_ptr - *it));
+        intervals.erase(intervals.find(*it - *left_ptr));
+
+        intervals.insert(*right_ptr - *left_ptr);
+        diff.erase(it);
+    } else {
+        // insert it, since x is now different, think about 0000000, where x is the middle index
+        it = diff.insert(x).first;
+
+        int a = *prev(it);
+        int b = *next(it);
+        intervals.erase(intervals.find(b - a));
+        intervals.insert(*it - a);
+        intervals.insert(b - *it);
+    }
+}
+
 int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
     string bitstr;
     cin >> bitstr;
 
@@ -16,10 +48,8 @@ int main() {
         }
     }
 
-    auto last = diff.begin();
-    for (auto it = next(diff.begin(), 1); it != diff.end(); it++) {
-        intervals.insert(*it - *last);
-        last = it;
+    for (auto it = diff.begin(); next(it) != diff.end(); it++) {
+        intervals.insert(*next(it) - *it);
     }
 
     int queries;
@@ -30,36 +60,20 @@ int main() {
         cin >> change;
         change--;
 
-        // get the locations of changed interval
-        auto right = diff.lower_bound(change);
-        auto left = prev(diff.lower_bound(change));
-        
-        // erase the interval
-        intervals.erase(intervals.find(*right - *left));
+        /*
+        two cases:
+        with the first change we also have to add the next 
+            example: 000000000 -> 000010000 => add mid index and add index mid + 1
+        with the first change we have to erase the next
+            example: 101 -> 111 => erase mid and erase next
+        */
 
-        // erase the lowerbound, go right and calculate again
-        if (change + 1 != bitstr.size() && *right == change && *next(right) == change + 1) {
-            // erase both right and right + 1
-            diff.erase(next(right));
-            diff.insert(change + 2);
-            diff.erase(right);
+        // idx change
+        modify(change, diff, intervals, bitstr.size());
+        // consequently, the next idx will also change
+        modify(change + 1, diff, intervals, bitstr.size());
 
-            // insert this new interval
-            auto t = diff.lower_bound(change + 2);
-            intervals.insert(*t - *prev(t));
-        } else {
-            diff.erase(right);
-        }
-
-        // add the new intervals
-        right = diff.lower_bound(change);
-        left = prev(right);
-
-        intervals.insert(*right - *left);
-
-        auto it_max = intervals.end();
-        --it_max;
-        cout << *it_max << " ";
+        cout << *intervals.rbegin() << " ";
     }
     cout << "\n";
 }
