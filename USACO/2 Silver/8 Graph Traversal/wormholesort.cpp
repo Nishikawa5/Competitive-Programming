@@ -2,16 +2,12 @@
 using namespace std;
 
 int last_true(int lo, int hi, function<bool(int)> f) {
-	// if none of the values in the range work, return lo - 1
 	lo--;
 	while (lo < hi) {
-		// find the middle of the current range (rounding up)
 		int mid = lo + (hi - lo + 1) / 2;
 		if (f(mid)) {
-			// if mid works, then all numbers smaller than mid also work
 			lo = mid;
 		} else {
-			// if mid does not work, greater values would not work either
 			hi = mid - 1;
 		}
 	}
@@ -43,17 +39,19 @@ int main() {
         c--;
     }
 
+    int greatest_width = 0;
     for (int i = 0; i < wormhole_num; i++) {
-        int from, to, weight;
-        cin >> from >> to >> weight;
+        int from, to, width;
+        cin >> from >> to >> width;
 
         from--; to--;
-        graph[from].push_back({to, weight});
-        graph[to].push_back({from, weight});
+        graph[from].push_back({to, width});
+        graph[to].push_back({from, width});
+        greatest_width = max(width, greatest_width);
     }
 
     // max path from n to m
-    int max_width = last_true(1, 1e5 + 1, [&](int min_width) {
+    int max_width = last_true(0, greatest_width + 1, [&](int min_width) {
         vector<int> conn_comp(cow_num, -1);
         // connect the components
         for (int i = 0; i < cow_num; i++) {
@@ -72,5 +70,5 @@ int main() {
         return true;
     });
 
-    cout << (max_width == (1e5 + 1) ? -1 : max_width) << endl; 
+    cout << (max_width == greatest_width + 1 ? -1 : max_width) << endl; 
 }
