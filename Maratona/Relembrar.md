@@ -56,6 +56,8 @@ if (mp.find(i) != mp.end()) {
   // código
 }
 ```
+Tome cuidado com o uso de unordered_map, pois o número de colisões pode fazer com que o lookup fique O(n), enquanto map O(log n)
+
 
 ### ordered_set / unordered_set
 | Estrutura           | Inserção/Deleção |
@@ -65,20 +67,11 @@ if (mp.find(i) != mp.end()) {
 
 ### lower_bound / upper_bound
 lower_bound: retorna um iterador para o menor elemento maior ou igual a algum elemento k. 
-𝑂
-(
-log
-⁡
-𝑛
-)
+𝑂(log 𝑛)
 
 upper_bound: retorna um iterador para o menor elemento estritamente maior que algum elemento k. 
-𝑂
-(
-log
-⁡
-𝑛
-)
+𝑂(log𝑛)
+
 Funciona para set, map, vetor ordenado.
 
 Exemplo:
