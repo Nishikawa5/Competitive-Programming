@@ -40,6 +40,9 @@ bool dfs(int vertice, vector<int> &colors, vector<vector<pair<bool, int>>> &grap
 
 
 int main() {
+    freopen("revegetate.in", "r", stdin);
+	freopen("revegetate.out", "w", stdout);
+    
     int pastures, cows;
     cin >> pastures >> cows;
 
