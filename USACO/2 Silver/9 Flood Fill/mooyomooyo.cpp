@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/*
+fails because we are not counting every equal color before going back
+(the first recursive iteration may have more to count which is not counted in the last recursion for example)
 void floodfill(int i, int j, char color, int k, int &count, vector<vector<bool>> &visited, vector<string> &colors) {
     if (i >= 0 && i < colors.size() && j >= 0 && j < 10 && !visited[i][j] && colors[i][j] == color) {
         visited[i][j] = true;
@@ -14,6 +17,19 @@ void floodfill(int i, int j, char color, int k, int &count, vector<vector<bool>>
         if (count >= k) {
             colors[i][j] = '0';
         }
+    }
+}
+*/
+
+void floodfill(int i, int j, char color, int k, vector<pair<int, int>> &connections, vector<vector<bool>> &visited, vector<string> &colors) {
+    if (i >= 0 && i < colors.size() && j >= 0 && j < 10 && !visited[i][j] && colors[i][j] == color) {
+        visited[i][j] = true;
+        connections.push_back({i, j});
+
+        floodfill(i + 1, j, color, k, connections, visited, colors);
+        floodfill(i, j + 1, color, k, connections, visited, colors);
+        floodfill(i, j - 1, color, k, connections, visited, colors);
+        floodfill(i - 1, j, color, k, connections, visited, colors);
     }
 }
 
@@ -43,10 +59,13 @@ int main() {
             for (int j = 0; j < 10; j++) {
 
                 if (!visited[i][j] && colors[i][j] != '0') {
-                    int count = 0;
+                    vector<pair<int, int>> connections;
+                    floodfill(i, j, colors[i][j], k, connections, visited, colors);
+                    if (connections.size() >= k) {
+                        for (auto &c: connections) {
+                            colors[c.first][c.second] = '0';
+                        }
 
-                    floodfill(i, j, colors[i][j], k, count, visited, colors);
-                    if (count >= k) {
                         changed = true;
                     }
                 }

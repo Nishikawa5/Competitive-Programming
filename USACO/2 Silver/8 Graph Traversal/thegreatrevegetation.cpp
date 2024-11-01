@@ -1,16 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/*
 
-1 1 2
-2 2 1
-*/
-bool dfs(int vertice, vector<int> &colors, vector<vector<pair<bool, int>>> &graph) {
-    int curr_color = colors[vertice];
-
+bool dfs(int vertice, vector<int> &colors, vector<vector<pair<char, int>>> &graph) {
+    // assume colors[vertice] is always colored
     for (auto curr_vertice: graph[vertice]) {
         if (colors[curr_vertice.second] != 0) {
+            // visited, so check if it makes sense
             if (curr_vertice.first == 'S') {
                 // must be the same
                 if (colors[curr_vertice.second] != colors[vertice]) {
@@ -20,9 +16,10 @@ bool dfs(int vertice, vector<int> &colors, vector<vector<pair<bool, int>>> &grap
                 // must be different
                 if (colors[curr_vertice.second] == colors[vertice]) {
                     return false;
-                }           
+                }
             }
         } else {
+            // neighbor not visited yet, so color and visit
             if (curr_vertice.first == 'S') {
                 // must be the same
                 colors[curr_vertice.second] = colors[vertice];
@@ -52,7 +49,7 @@ int main() {
 
     */
 
-    vector<vector<pair<bool, int>>> graph(pastures);
+    vector<vector<pair<char, int>>> graph(pastures);
     for (int i = 0; i < cows; i++) {
         char type;
         int from, to;
@@ -65,16 +62,22 @@ int main() {
 
     vector<int> colors(pastures);
 
-    string ans = "1";
+    int zeros = 0;
     for (int i = 0; i < pastures; i++) {
         if (colors[i] == 0) {
+            colors[i] = 1;
             if (!dfs(i, colors, graph)) {
                 cout << 0 << endl;
                 return 0;
             } else {
-                ans += '0';
+                zeros++;
             }
         }
     }
-    cout << ans << endl;
+
+    cout << '1';
+    for (int i = 0; i < zeros; i++) {
+        cout << '0';
+    }
+    cout << endl;
 }
