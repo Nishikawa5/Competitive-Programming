@@ -1,6 +1,23 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+bool dfs(int v, vector<int> &ana_candies, vector<bool> &visited, vector<vector<int>> &graph) {
+    ana_candies.push_back(v);
+
+    if (v == 0) {
+        return true;
+    }
+
+    for (auto cv: graph[v]) {
+        if (!visited[cv] && dfs(cv, ana_candies, visited, graph)) {
+            return true;
+        }
+    }
+    ana_candies.pop_back();
+    return false;
+}
+
+
 int main() {
     int n;
     cin >> n;
@@ -24,13 +41,17 @@ int main() {
         int target = sum / 2;
 
         // lets try to get the candies for one
+        vector<vector<int>> back(target + 1);
         vector<int> dp(target + 1);
         dp[0] = 1;
         for (int i = 0; i < candies.size(); i++) {
             for (int j = target; j >= 0; j--) {
                 // target -> 0 to get only one of each amount candy
                 if (j - candies[i] >= 0) {
-                    dp[j] |= dp[j - candies[i]];
+                    if (dp[j - candies[i]]) {
+                        dp[j] = 1;
+                        back[j].push_back(j - candies[i]);
+                    }
                 }
             }
         }
@@ -39,31 +60,36 @@ int main() {
             // is possible, so lets get the order
             int curr_sum = target;
 
-            vector<int> ana_candies;
-            while (curr_sum != 0) {
-                for (int i = 0; i < candies.size(); i++) {
-                    if (dp[curr_sum - candies[i]]) {
-                        ana_candies.push_back(candies[i]);
-                        curr_sum -= candies[i];
-                        candies.erase(candies.begin() + i);
+            vector<int> candies_path;
+            // dfs back to 0
+            vector<bool> visited(target, false);
+            dfs(target, candies_path, visited, back);
+
+
+            vector<int> alice_candies(candies_path.size() - 1);
+            for (int i = 0; i < alice_candies.size(); i++) {
+                alice_candies[i] = candies_path[i] - candies_path[i + 1];
+
+                for (int j = 0; j < candies.size(); j++) {
+                    if (alice_candies[i] == candies[j]) {
+                        candies.erase(candies.begin() + j);
                         break;
                     }
                 }
             }
 
             // manipulate candy order to make them equal
-            int ana_sum = ana_candies[0];
+            int alice_sum = 0;
             int bob_sum = 0;
-            cout << ana_candies[0] << " ";
-            int a_idx = 1;
+            int a_idx = 0;
             int b_idx = 0;
             while (a_idx + b_idx < n) {
-                if (ana_sum > bob_sum) {
+                if (alice_sum > bob_sum) {
                     cout << candies[b_idx] << " ";
                     bob_sum += candies[b_idx++];
                 } else {
-                    cout << ana_candies[a_idx] << " ";
-                    ana_sum += ana_candies[a_idx++];
+                    cout << alice_candies[a_idx] << " ";
+                    alice_sum += alice_candies[a_idx++];
                 }
             }
 
