@@ -10,7 +10,7 @@ int main() {
     map<int, int> compressed;
     for (int i = 0; i < n; i++) {
         cin >> start[i] >> end[i] >> money[i];
-        end[i]++;    // why?
+        end[i]++;    // available only after this day
 
         // to use in 
         compressed[start[i]];
