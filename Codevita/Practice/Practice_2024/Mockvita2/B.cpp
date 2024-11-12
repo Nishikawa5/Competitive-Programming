@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/*
+fails idk why
+*/
 void solve() {
     string str;
     cin >> str;
@@ -23,31 +26,28 @@ void solve() {
 
     // the solution string is either
     // 1111...110...000 or 0000...000111...111
-    if (!(zeros && ones)) {
+    if (!(zeros && ones) || (m == 0 && n == 0)) {
         cout << "0\n";
     } else {
+        string best_str;
+        string ones_str(ones, '1');
+        string zeros_str(zeros, '0');
         int ans = 0;
+
         if (n > m) {
             // 111...11000...00
-            for (int i = 0; i < ones; i++) {
-                ans += (str[i] == '0');
-            }
-
-            for (int i = ones; i < (int)str.size(); i++) {
-                ans += (str[i] == '1');
-            }
-
+            best_str = ones_str + zeros_str;
         } else {
             // 00...0011...111
-            for (int i = 0; i < zeros; i++) {
-                ans += (str[i] == '1');
-            }
-
-            for (int i = zeros; i < (int)str.size(); i++) {
-                ans += (str[i] == '0');
+            best_str = zeros_str + ones_str;
+        }
+        
+        for (int i = 0; i < (int)str.size(); i++) {
+            if (str[i] != best_str[i]) {
+                ans++;
             }
         }
-        cout << ans << "\n";
+        cout << ans << endl;
     }
 }
 
