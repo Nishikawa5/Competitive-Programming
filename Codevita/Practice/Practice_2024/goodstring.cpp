@@ -22,11 +22,22 @@ int main() {
 
     sort(goodstring.begin(), goodstring.end());
 
+    cout << goodstring << endl;
+
     int min_dist = 0;
     for (char c: name) {
 
-        first_true(0, goodstring.size() - 1, [&](int idx) {
-            return goodstring[idx] <= c;
+        int first_greater = first_true(0, goodstring.size() - 1, [&](int idx) {
+            return goodstring[idx] >= c;
         });
+
+        if (first_greater == 0) {
+            min_dist += abs(goodstring[first_greater] - c);
+        } else if (first_greater == goodstring.size()) {
+            min_dist += abs(goodstring[first_greater - 1] - c);
+        } else {
+            min_dist += min(abs(goodstring[first_greater] - c), abs(goodstring[first_greater - 1] - c));
+        }
     }
+    cout << min_dist << endl;
 }
