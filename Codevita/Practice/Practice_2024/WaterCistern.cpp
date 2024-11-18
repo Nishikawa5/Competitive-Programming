@@ -56,7 +56,7 @@ int main(void) {
         depends only on theta, so lets try grad descent
         */
         dist = -dist;
-        double delta = 1e-1;
+        double delta = 1e-2;
         double lr = 0.01;
         double gradient;
 
