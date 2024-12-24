@@ -23,6 +23,7 @@ void floodfill(int i, int j, int &litted, vector<vector<vector<pair<int, int>>>>
                     grid.size() > y && y >= 0 &&
                     visited[x][y]) {
                     
+                    // could have floodfilled s.first, s.second and break instead
                     visited[x][y] = false;
                     floodfill(x, y, litted, switches, visited, grid);
                 }
