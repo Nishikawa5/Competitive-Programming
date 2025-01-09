@@ -22,24 +22,43 @@ ll first_true(ll lo, ll hi, function<bool(ll)> f) {
 }
 
 int main() {
-    int n, k;
+    ll n, k;
     cin >> n >> k;
 
     vector<ll> arr(n);
+    vector<ll> prefix(n + 1);
     for (auto &e: arr) {
         cin >> e;
     }
 
     sort(arr.begin(), arr.end());
-    ll ans = first_true(0, 1e9, [&](ll curr_diff) {
-        // check if is possible to get this difference
-        ll from_left = arr[0] + curr_diff;
-        ll from_right = arr[arr.size() - 1] - curr_diff;
+    for (int i = 0; i < n; i++) {
+        prefix[i + 1] = prefix[i] + arr[i];
+    }
 
-        ll diff_from_left = 0;
-        ll diff_from_right = 0;
-        for (int i = 0; i < arr.size(); i++) {
-            diff_from_left 
+    ll ans = first_true(0, 1e9, [&](ll curr_diff) {
+        // pick a number that is the closest to be max/min
+        // and calculate if is possible
+        for (int i = 0; i < n; i++) {
+            // range [arr[i], arr[i] + curr_diff]
+            ll max_num = arr[i] + curr_diff;
+            ll right = upper_bound(arr.begin(), arr.end(), max_num) - arr.begin();
+            // 0 to i - 1 add the difference
+            // right to n just add the accumulative sum
+            ll ops = (prefix[n] - prefix[right]) - (n - right) * max_num;
+            ops += i * arr[i] - prefix[i];
+            if (ops <= k) return true;
+
+            // range [arr[i] - curr_diff, arr[i]]
+            ll min_num = arr[i] - curr_diff;
+            ll left = lower_bound(arr.begin(), arr.end(), min_num) - arr.begin();
+            // 0 to left - 1 add the difference
+            // i to n        just add the accumulative sum 
+            ops = left * min_num - prefix[left];
+            ops += (prefix[n] - prefix[i + 1]) - (n - (i + 1)) * arr[i];
+            if (ops <= k) return true;
         }
+        return false;
     });
+    cout << ans << endl;
 }
