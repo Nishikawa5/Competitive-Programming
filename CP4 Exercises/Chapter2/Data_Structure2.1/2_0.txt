@@ -1,4 +1,0 @@
-Data structure - store and organize data in some way
-The data structure you choose depends on the algorithm or problem we are going to solve, being some
-more efficient than others
-important to understand algorithms
