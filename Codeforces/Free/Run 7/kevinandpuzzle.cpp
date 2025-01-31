@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int MOD = 998244353;
+
 void solve() {
     int n;
     cin >> n;
@@ -20,13 +22,25 @@ void solve() {
     // how many games where i tells the/a truth/lie
     vector<int> dp_truth(n);
     vector<int> dp_lie(n);
+    // 0 says the truth
     dp_truth[0] = (classmates[0] == 0);
+    // 0 lies
     dp_lie[0] = 1;
 
-    dp_truth[1] = dp_truth[0];
+    if (n == 1) {
+        cout << dp_truth[0] + dp_lie[0] << endl;
+        return;
+    }
+
+
+    // 1 says the truth
+    if (classmates[1] == 0) {
+        dp_truth[1] += dp_truth[0];
+    }
     if (classmates[1] == 1) {
         dp_truth[1] += dp_lie[0];
     }
+    // 1 lies
     dp_lie[1] = dp_truth[0];
     for (int i = 2; i < n; i++) {
         // ai truth => i+1 is either a liar or honest
@@ -40,9 +54,11 @@ void solve() {
             // the case ai is telling the truth and ai-1 is also telling the truth
             dp_truth[i] += dp_truth[i - 1];
         }
-        if (classmates[i] == classmates[i - 2]) {
-            dp_truth[i] += dp_lie[i - 2];
+        if (classmates[i] == classmates[i - 2] + 1) {
+            // the case ai is telling the truth and ai-1 is lying, so ai-2 is telling the truth
+            dp_truth[i] += dp_lie[i - 1];
         }
+        dp_truth[i] %= MOD;
 
 
         // ai lie   => i-1 and i+1 are honest => ai-1 + 1 == ai+1
@@ -50,7 +66,7 @@ void solve() {
         // how many possible games of i-1 telling the truth?
         dp_lie[i] = dp_truth[i - 1];
     }
-    cout << dp_lie[n - 1] + dp_truth[n - 1] << endl;
+    cout << (dp_lie[n - 1] + dp_truth[n - 1]) % MOD << endl;
 }
 
 
