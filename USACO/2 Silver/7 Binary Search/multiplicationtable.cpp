@@ -38,10 +38,12 @@ int main() {
         ll greater_than = 0;
 
         for (int r = 1; r <= n; r++) {
-            greater_than += min((ll)n, curr_num / r);
+            greater_than += min((ll)n, (curr_num) / r);
         }
 
-        return (n * n) / 2 <= greater_than;
+        // + 1 since is 1-indexed
+        // we want a element that is greater than exactly (n * n + 1) / 2 elements
+        return (1LL * n * n + 1) / 2 <= greater_than;
     });
 
     cout << ans << endl;

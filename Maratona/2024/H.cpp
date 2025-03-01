@@ -3,9 +3,9 @@ using namespace std;
 
 /*
 get the value corresponding to str2 (every combination)
--> use this value as mod to calculate the rest of str1
+-> use this value as mod to calculate the remainder of str1
 
-str1 divide str2 <=> rest == 0
+str1 divide str2 <=> remainder == 0
 */
 void solve() {
     string dividend;
@@ -51,13 +51,13 @@ void solve() {
             modulo = modulo * 2 + divisor[i] - '0';
         }
 
-        int rest = 0;
+        int remainder = 0;
         for (int i = 0; i < dividend.size(); i++) {
-            rest = rest * 2 + dividend[i] - '0';
-            rest %= modulo;
+            remainder = remainder * 2 + dividend[i] - '0';
+            remainder %= modulo;
         }
 
-        if (rest == 0) {
+        if (remainder == 0) {
             cout << dividend << endl;
             return;
         }

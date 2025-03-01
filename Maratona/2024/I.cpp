@@ -29,15 +29,16 @@ void solve() {
 
     for (int i = 1; i < N; i++) {
         for (int j = i + i; j < N; j += i) {
-            // number of subsets divisible by i
+            // number of foods divisible by i
             count[i] += count[j];
         }
     }
 
     for (int i = 1; i < N; i++) {
         for (int j = i; j < N; j += i) {
-            // odd num of primes:  overcounted subsets
-            // even num of primes: subsets divisible by i
+            // odd num of primes:  overcounted foods
+            // even num of primes: foods divisible by i
+            // i's are every divisor of j
             dp[j] += count[i] * mobius[i];
         }
     }
@@ -47,6 +48,7 @@ void solve() {
     while (q--) {
         int allergy;
         cin >> allergy;
+        // can form 2^foods subsets
         cout << power2[dp[allergy]] << endl;
     }
 }
