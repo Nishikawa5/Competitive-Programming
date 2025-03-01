@@ -1,3 +1,0 @@
-# Use this command in WSL
-
-tr -d '\r' < input.txt | ./a.out > output.txt
