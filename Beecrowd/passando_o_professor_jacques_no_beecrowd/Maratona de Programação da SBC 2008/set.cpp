@@ -49,7 +49,7 @@ only way i think rn:
   choose one from 0, another from 1 and another from 2. If possible, use every possible
   fig_num
 
-const vector<array<array<int, 2>, 3>> VALID__cOMBINA_tION_s = {
+const vector<array<array<int, 2>, 3>> VALIDCOMBINATIONS = {
     {{{0, 0}, {0, 1}, {0, 2}}},  // 00 01 02
     {{{0, 0}, {1, 1}, {2, 2}}},  // 00 11 22
     {{{0, 0}, {1, 2}, {2, 1}}},  // 00 12 21
