@@ -1,6 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/*
+want the max number of ids that the sum is divisible by 7
+
+we use prefix to keep track of the last cow with remainder e [0, 7)
+
+*/
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
