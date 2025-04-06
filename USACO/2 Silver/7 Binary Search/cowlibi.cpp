@@ -1,8 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-long long distance(pair<int, int> a, pair<int, int> b) {
-    return (a.first - b.first) * (a.first - b.first) + (a.second - b.second) * (a.second - b.second);
+#define ll long long
+
+ll reachable(pair<ll, pair<ll, ll>> a, pair<ll, pair<ll, ll>> b) {
+    // sqrt(dx ** 2 + dy ** 2) = dist = t2 - t1
+    // => dx**2 + d**2 <= (t2-t1)**2 is reachable 
+    ll distance = (a.second.first - b.second.first) * (a.second.first - b.second.first) + (a.second.second - b.second.second) * (a.second.second - b.second.second);
+    ll can_travel = (a.first - b.first) * (a.first - b.first);  
+
+    return distance <= can_travel;
 }
 
 int main() {
@@ -13,8 +20,8 @@ int main() {
     int grazings_num, n;
     cin >> grazings_num >> n;
 
-    vector<pair<int, pair<int, int>>> grazings(grazings_num);
-    vector<pair<int, pair<int, int>>> cows(n);
+    vector<pair<ll, pair<ll, ll>>> grazings(grazings_num);
+    vector<pair<ll, pair<ll, ll>>> cows(n);
 
     for (auto &g: grazings) {
         cin >> g.second.first >> g.second.second >> g.first;
@@ -27,28 +34,20 @@ int main() {
     sort(grazings.begin(), grazings.end());
 
     int proved = 0;
+    int i = 0;
     for (auto &c: cows) {
         // can this cow reach a grazing?
         auto it = lower_bound(grazings.begin(), grazings.end(), c);
 
+        bool is_innocent = false;
         if (it != grazings.end()) {
-            if (distance((*it).second, c.second) <= 
-                (c.first - (*it).first) * (c.first - (*it).first)) {
-                
-                continue;
-            }
+            is_innocent = is_innocent || !reachable(c, *it);
         }
 
         if (it != grazings.begin()) {
-            it--;
-            if (distance((*it).second, c.second) <= 
-                (c.first - (*it).first) * (c.first - (*it).first)) {
-            
-            continue;
+            is_innocent = is_innocent || !reachable(c, *prev(it));
         }
-        }
-
-        proved++;
+        proved += is_innocent;
     }
     cout << proved << endl;
 }
