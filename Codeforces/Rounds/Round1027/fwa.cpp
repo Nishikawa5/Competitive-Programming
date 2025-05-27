@@ -32,6 +32,13 @@ void solve() {
             factors_y.insert(erase/i);
         }
     }
+    if (need != 1) {
+        factors_x.insert(need);
+    }
+    if (erase != 1) {
+        factors_y.insert(erase);
+    }
+
 
     int ans = 0;
     for (auto i = factors_x.rbegin(); i != factors_x.rend(); i++) {
