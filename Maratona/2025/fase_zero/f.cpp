@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// WA
 
 void solve() {
     int n;
@@ -15,6 +14,24 @@ void solve() {
         arr.push_back(a);
     }
 
+    // dp[number of numbers we are summing][sum] = quantity of this sum
+    vector<unordered_map<int, long long>> dp(5);
+    dp[0][0] = 1;
+    for (int x: arr) {
+        // we use this number
+        // note that we are not considering different x positions
+
+        for (int k = 3; k >= 0; k--) {
+            // and add it to the sum of k numbers
+
+            for (auto &[sum, possible_sums]: dp[k]) {
+                // for every sum we currently have
+                dp[k + 1][sum + x] += possible_sums;
+            }
+        }
+    }
+
+
     
     int num;
     cin >> num;
@@ -22,30 +39,7 @@ void solve() {
     while (num--) {
         int target;
         cin >> target;
-
-        vector<vector<pair<int, int>>> dp(target + 16000+1);
-        
-        dp[8000].push_back({0, 0});
-
-        // first add every coin of one type to dont make duplicates
-        // note that we not adding in a ordered way, but it works the same way
-        // because we want only the number of ways
-
-        // 8000 is the 0
-        for (int &curr_coin: arr) {
-            for (int i = 0; i <= target + 16000; i++) {
-                if (i - curr_coin >= 0) {
-
-                    for (auto &v: dp[i - curr_coin]) {
-
-                        if (v.second <= 4) {
-                            dp[i - curr_coin + 4000].push_back({v.first + curr_coin, v.second + 1});
-                        }
-                    }
-                }
-            }
-        }
-        cout << dp[target + 8000].size() << endl;
+        cout << dp[4][target] << endl;
     }
 }
 
