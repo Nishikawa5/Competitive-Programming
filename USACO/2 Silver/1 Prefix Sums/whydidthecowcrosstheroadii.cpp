@@ -2,6 +2,11 @@
 using namespace std;
 
 void solve() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    freopen("maxcross.in", "r", stdin);
+    freopen("maxcross.out", "w", stdout);
+
     int n, k, b;
     cin >> n >> k >> b;
 
