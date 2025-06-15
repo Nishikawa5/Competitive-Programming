@@ -1,25 +1,63 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
+/*
+we cant simply sort and put the balls from left to right
+since we may have a situation like
+1 1
+1 3
+1 4
+1 5
+2 2
+we fill 1-4 and cant put 2 2, but we need to
+put 2 2 in 2, which would be possible if we change
+the way we are putting
+*/
+
 void solve() {
     int balls_num;
     cin >> balls_num;
 
     vector<pair<int, int>> interval(balls_num);
+    set<int> from;
+    map<int, vector<int>> from_to; 
+    
     for (auto &p: interval) {
         cin >> p.first >> p.second;
+        from.insert(p.first);
+        from_to[p.first].push_back(p.second);
     }
 
-    sort(interval.begin(), interval.end());
-    int last_used = 0;
+    int i = *from.lower_bound(1);
+    auto next_i = from.lower_bound(i+1); 
 
-    for (int i = 0; i < interval.size(); i++) {
-        if (last_used < interval[i].first) {
-            last_used = interval[i].first;
+    priority_queue<int> pq;
+    while (i <= 1e9) {
+        if (next_i != from.end() && *next_i <= i) {
+            for (auto r: from_to[*next_i]) {
+                pq.push(-r);            
+            }
+
+            next_i = from.lower_bound(*next_i + 1);
+        }
+
+        if (pq.empty()) {
+
+            if (next_i == from.end()) {
+                // no more balls to place,
+                // so it is possible
+                cout << "YES\n";
+            } else {
+                i = *next_i;
+            }
         } else {
-            last_used++;
-
-            if (last_used > interval[i].second) {
+            int best = -pq.top();
+            
+            if (best <= i) {
+                i++;
+            } else {
+                // cant put the ball
                 cout << "NO\n";
                 return;
             }
