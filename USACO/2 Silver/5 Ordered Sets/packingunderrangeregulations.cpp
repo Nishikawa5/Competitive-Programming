@@ -30,7 +30,8 @@ void solve() {
     }
 
     int i = *from.lower_bound(1);
-    auto next_i = from.lower_bound(i+1); 
+    // we get the next later
+    auto next_i = from.lower_bound(1); 
 
     priority_queue<int> pq;
     while (i <= 1e9) {
@@ -48,13 +49,15 @@ void solve() {
                 // no more balls to place,
                 // so it is possible
                 cout << "YES\n";
+                return;
             } else {
                 i = *next_i;
             }
+            next_i = from.lower_bound(*next_i + 1);
         } else {
             int best = -pq.top();
-            
-            if (best <= i) {
+            pq.pop();
+            if (i <= best) {
                 i++;
             } else {
                 // cant put the ball
@@ -63,7 +66,7 @@ void solve() {
             }
         }
     }
-    cout << "YES\n";
+    cout << "NO\n";
 }
 
 int main() {
