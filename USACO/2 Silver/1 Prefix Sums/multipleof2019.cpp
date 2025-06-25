@@ -13,6 +13,10 @@ int main() {
     /*
     construct the number from right to left
     since the partial mods are different than left to right (but final mods are equal)
+    
+    v[xn...x1] - v[xk...x1] == v[xn...xk+1] * 1ek
+    so
+    v[xn...xk+1] % 2019 <=> (v[xn...x1] - v[xk...x1]) % 2019
     */
     long long multiples = 0;
     for (int i = number.size() - 1; i >= 0; i--) {
