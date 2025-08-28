@@ -5,6 +5,11 @@
 using namespace std;
 using namespace __gnu_pbds;
 
+// ordered datastructure which we can find the
+// rank of some number
+// e.g. [20, 30, 40, 50, 60], so
+// s.order_of_key(40) == 2
+// s.order_of_key(45) == 3
 typedef tree<
     int,
     null_type,
@@ -18,14 +23,7 @@ void solve() {
     int x, y;
     cin >> x >> y;
 
-    // ordered datastructure which we can find the
-    // rank of some number
-    // e.g. [20, 30, 40, 50, 60], so
-    // s.order_of_key(40) == 2
-    // s.order_of_key(45) == 3
 
-    // get the order of opposite side
-    //
     int hor_num, ver_num;
     cin >> hor_num >> ver_num;
 
@@ -44,6 +42,7 @@ void solve() {
 
         long long ans = 0;
         for (int i = 0; i < cuts.size(); i++) {
+            // get the order of opposite side
             ans += ord.order_of_key(cuts[i].second);
             ord.insert(cuts[i].second);
         }
