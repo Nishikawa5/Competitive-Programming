@@ -169,3 +169,16 @@ Para utilizar operações de bits em uma string de bits com mais de 64 bits pode
 ```cpp
 bitset<size> variable_name;
 ```
+
+
+### DP
+##### Abordagens DP
+dp[i][j]: número de algo de i para j
+
+
+### Monotonic Increasing/Decreasing Stack
+
+### Graph
+##### DFS/BFS
+
+##### 
