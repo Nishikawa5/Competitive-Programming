@@ -1,5 +1,3 @@
-# Dicas
-
 ## Na prova
 Olhar os balões pelo score do site para não confundir e considerar o tempo que as questões foram feitas, além do número de questões feitas.
 
