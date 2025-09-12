@@ -562,6 +562,63 @@ vector<int> topological_sort(int n, const vector<vector<int>>& adj) {
     return result;
 }
 ```
+```cpp
+// DFS example
+#include <bits/stdc++.h>
+using namespace std;
+
+bool dfs(int pupil, vector<int> &colors, vector<vector<int>> &graph) {
+    // cant be the same color as the pupil
+    int friend_color = colors[pupil] == 1 ? 2 : 1;
+
+    for (int &f: graph[pupil]) {
+        if (colors[f] == 0) {
+            // just change it
+            colors[f] = friend_color;
+            if (!dfs(f, colors, graph)) {
+                return false;
+            }
+        } else if (colors[f] != friend_color) {
+            // can't have
+            return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    int n, friendships;
+    cin >> n >> friendships;
+
+    vector<int> colors(n);
+    vector<vector<int>> graph(n);
+    for (int i = 0; i < friendships; i++) {
+        int f1, f2;
+        cin >> f1 >> f2;
+        graph[f1 - 1].push_back(f2 - 1);
+        graph[f2 - 1].push_back(f1 - 1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (colors[i] == 0) {
+            // put in the group 1
+            colors[i] = 1;
+            if (!dfs(i, colors, graph)) {
+                cout << "IMPOSSIBLE\n";
+                return 0;
+            }
+        }
+    }
+
+    for (int c: colors) {
+        cout << c << " ";
+    }
+    cout << "\n";
+}
+```
+
+
+
 
 ### Matemática
 
@@ -604,17 +661,7 @@ for (int p = 2; p * p <= N; p++) {
 
 
 
-### Programação Dinâmica
 
-- **Estado da DP:** Defina `dp[i]...` como "a melhor resposta para o subproblema considerando os primeiros `i` elementos".
-- **Recorrência:** Encontre a relação entre `dp[i]` e os estados anteriores (`dp[i-1]`, `dp[i-2]`, etc.).
-- **Padrões Clássicos:**
-    - **Knapsack (Mochila):** `dp[i][w]` = maior valor usando os primeiros `i` itens com capacidade `w`.
-    - **LIS (Longest Increasing Subsequence):** `dp[i]` = tamanho da LIS que termina no elemento `i`. Pode ser otimizado para $O(N \log N)$.
-    - **LCS (Longest Common Subsequence):** `dp[i][j]` = tamanho da LCS entre as strings `s1[0..i]` e `s2[0..j]`.
-    - **DP em Grids/Matrizes:** `dp[i][j]` = resposta para o sub-grid terminando em `(i, j)`.
-    - **DP com Bitmask:** Use uma máscara de bits para representar subconjuntos de itens como estado. `dp[mask]` = resposta para o subconjunto de itens representados por `mask`.
-    - **Intervalo:** `dp[i][j]` de i até j, considere todos os j para esse i, etc.
 
 
 ### Monotonic Increasing/Decreasing Stack
@@ -673,4 +720,47 @@ double first_true(double lo, double hi, function<bool(double)> f) {
     }
     return lo;
 }
+```
+
+### Programação Dinâmica
+
+- **Estado da DP:** Defina `dp[i]...` como "a melhor resposta para o subproblema considerando os primeiros `i` elementos".
+- **Recorrência:** Encontre a relação entre `dp[i]` e os estados anteriores (`dp[i-1]`, `dp[i-2]`, etc.).
+- **Padrões Clássicos:**
+    - **Knapsack (Mochila):** `dp[i][w]` = maior valor usando os primeiros `i` itens com capacidade `w`.
+    - **LIS (Longest Increasing Subsequence):** `dp[i]` = tamanho da LIS que termina no elemento `i`. Pode ser otimizado para $O(N \log N)$.
+    - **LCS (Longest Common Subsequence):** `dp[i][j]` = tamanho da LCS entre as strings `s1[0..i]` e `s2[0..j]`.
+    - **DP em Grids/Matrizes:** `dp[i][j]` = resposta para o sub-grid terminando em `(i, j)`.
+    - **DP com Bitmask:** Use uma máscara de bits para representar subconjuntos de itens como estado. `dp[mask]` = resposta para o subconjunto de itens representados por `mask`.
+    - **Intervalo:** `dp[i][j]` de i até j, considere todos os j para esse i, etc.
+
+```cpp
+// Coin example
+// many of same coin
+    vector<int> dp(target + 1, 0);
+    dp[0] = 1;
+    for (int i = 1; i <= target; i++) {
+        for (int c: coins) {
+            if (i - c >= 0) {
+                dp[i] += dp[i - c];
+                dp[i] %= (int) (1e9 + 7);
+            }
+        }
+    }
+
+// only one use coin
+    vector<int> dp(target + 1, 0);
+    dp[0] = 1;
+    // first add every coin of one type to dont make duplicates
+    // note that we not adding in a ordered way, but it works the same way
+    // because we want only the number of ways
+    for (int &curr_coin: coins) {
+        for (int i = 1; i <= target; i++) {
+            if (i - curr_coin >= 0) {
+                dp[i] += dp[i - curr_coin];
+                dp[i] %= mod;
+            }
+        }
+    }
+    cout << dp[target] << endl;
 ```
